@@ -19,9 +19,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install dependencies
-        run: pipenv install
+        run: pip install -r requirements.txt
       - name: Build binary
-        run: pipenv run pyinstaller main.spec
+        run: pyinstaller main.spec
       - name: Create tarball
         run: |
           mv dist/ rocm-smi-exporter/
