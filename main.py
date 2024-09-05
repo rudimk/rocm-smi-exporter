@@ -1,7 +1,20 @@
 from subprocess import check_output
 import json
 import time
+import logging
 from prometheus_client import start_http_server, Gauge
+
+'''
+Instantiate a logger
+'''
+# Define logging format
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+		'%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 
 '''
 Define gauges
@@ -16,6 +29,7 @@ This function runs `rocm-smi` with the `--json` flag, and parses the output.
 '''
 def getGPUMetrics():
     metrics = json.loads(check_output(["rocm-smi", "-a", "--json"]))
+    logger.info("[X] Retrieved metrics from rocm-smi.")
     return metrics
 
 '''
@@ -23,6 +37,7 @@ Start a Prometheus exporter server, and emit GPU metrics every 10s
 '''
 if __name__ == '__main__':
     start_http_server(9393)
+    logger.info("[X] Started http server on port 9393..")
 
     # Start an infinite loop
     while True:
@@ -36,7 +51,7 @@ if __name__ == '__main__':
                 gpuSocketPower.labels(device_name=metrics[card]['Device Name'], device_id=metrics[card]['Device ID'], subsystem_id=metrics[card]['Subsystem ID']).set(metrics[card]['Current Socket Graphics Package Power (W)'])
                 gpuUsage.labels(device_name=metrics[card]['Device Name'], device_id=metrics[card]['Device ID'], subsystem_id=metrics[card]['Subsystem ID']).set(metrics[card]['GPU use (%)'])
                 gpuVRAMUsage.labels(device_name=metrics[card]['Device Name'], device_id=metrics[card]['Device ID'], subsystem_id=metrics[card]['Subsystem ID']).set(metrics[card]['GPU Memory Allocated (VRAM%)'])
-                
+        logger.info("[X] Refreshed GPU metrics.")
         time.sleep(10)
 
             
