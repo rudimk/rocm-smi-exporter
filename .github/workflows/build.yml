@@ -6,7 +6,7 @@ on:
       - '**'
 
 env:
-  RELEASE_TAG: ${{ github.ref }}
+  RELEASE_TAG: ${{ github.ref_name }}
 
 jobs:
   build:
@@ -32,8 +32,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
       - name: Upload Release Asset
