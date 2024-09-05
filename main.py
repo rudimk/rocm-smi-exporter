@@ -2,7 +2,7 @@ from subprocess import check_output
 import json
 import time
 import logging
-from prometheus_client import start_http_server, Gauge
+from prometheus_client import start_http_server, Gauge, Summary, REGISTRY, PROCESS_COLLECTOR, PLATFORM_COLLECTOR
 
 '''
 Instantiate a logger
@@ -15,6 +15,12 @@ formatter = logging.Formatter(
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
+
+# Unregister default metrics
+REGISTRY.unregister(PROCESS_COLLECTOR)
+REGISTRY.unregister(PLATFORM_COLLECTOR)
+# Unlike process and platform_collector gc_collector registers itself as a different collector that has no corresponding public named variable. 
+REGISTRY.unregister(REGISTRY._names_to_collectors['python_gc_objects_collected_total'])
 
 '''
 Define gauges
