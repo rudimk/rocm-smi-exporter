@@ -55,3 +55,10 @@ scrape_configs:
       - targets: ["localhost:9393"]
 ```
 
+## Grafana Dashboard
+
+A sample Grafana dashboard's available inside the `grafana/` directory. 
+
+![real-time-metrics](https://github.com/user-attachments/assets/f0d39a79-bc9c-4d93-ae98-d20df6a43b1f)
+
+![historical-metrics](https://github.com/user-attachments/assets/bbd77548-0088-4802-bf4b-c281e4f6ae22)
