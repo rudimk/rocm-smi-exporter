@@ -1,0 +1,6 @@
+altgraph==0.17.4
+packaging==24.1
+prometheus_client==0.20.0
+pyinstaller==6.10.0
+pyinstaller-hooks-contrib==2024.8
+setuptools==74.1.2
