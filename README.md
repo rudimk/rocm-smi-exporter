@@ -1,3 +1,7 @@
+![GitHub Release](https://img.shields.io/github/v/release/rudimk/rocm-smi-exporter)
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rudimk/rocm-smi-exporter/build.yml)
+
 # rocm-smi-exporter
 A Prometheus exporter for rocm-smi
 
@@ -20,20 +24,15 @@ Support for more metrics(like fan speed) are coming soon.
 1. A Linux server with an AMD iGPU/GPU present(support for Windows is in the works).
 2. ROCm installed. You can refer to the official docs maintained by AMD [here](https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html#rocm-install-quick). 
 
+
+
 ## Running
 
-While we set up official builds, please use the following instructions to build the exporter:
-
-1. Clone this repo
-2. If you're using `pipenv`, run `pipenv install` inside this directory. If not, run `pip install -r requirements.txt`.
-3. To run the app: `pipenv run python main.py` or `python main.py`. 
-4. To compile the app into a binary: `pipenv run pyinstaller main.spec` or `pyinstaller main.spec`. 
-
-The compiled binary can be found inside a newly-generated folder called `dist/` - you can move it to `/usr/local/bin`. To run the exporter as a `systemd` job, feel free to use the following template:
+You can find the latest release at [https://github.com/rudimk/rocm-smi-exporter/releases](https://github.com/rudimk/rocm-smi-exporter/releases). Download the tarball, extract the exporter to `/usr/local/bin/` and you're good to go. To run the exporter as a `systemd` job, feel free to use the following template:
 
 ```
 [Unit]
-Description=Node Exporter
+Description=ROCm SMI Exporter
 Wants=network-online.target
 After=network-online.target
 
@@ -54,6 +53,15 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9393"]
 ```
+
+## Build instructions
+
+1. Clone this repo
+2. If you're using `pipenv`, run `pipenv install` inside this directory. If not, run `pip install -r requirements.txt`.
+3. To run the app: `pipenv run python main.py` or `python main.py`. 
+4. To compile the app into a binary: `pipenv run pyinstaller main.spec` or `pyinstaller main.spec`. 
+
+The compiled binary can be found inside a newly-generated folder called `dist/` - you can move it to `/usr/local/bin`. 
 
 ## Grafana Dashboard
 
