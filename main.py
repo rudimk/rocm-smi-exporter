@@ -54,7 +54,11 @@ if __name__ == '__main__':
             # Since the driver version is also exported as a key called `system`, disregard that
             if card != "system":
                 gpuEdgeTemperature.labels(device_name=metrics[card]['Device Name'], device_id=metrics[card]['Device ID'], subsystem_id=metrics[card]['Subsystem ID']).set(metrics[card]['Temperature (Sensor edge) (C)'])
-                gpuSocketPower.labels(device_name=metrics[card]['Device Name'], device_id=metrics[card]['Device ID'], subsystem_id=metrics[card]['Subsystem ID']).set(metrics[card]['Current Socket Graphics Package Power (W)'])
+                gpuSocketPower.labels(
+                    device_name=metrics[card]['Device Name'],
+                    device_id=metrics[card]['Device ID'],
+                    subsystem_id=metrics[card]['Subsystem ID'],
+                ).set(metrics[card].get('Current Socket Graphics Package Power (W)', 0))
                 gpuUsage.labels(device_name=metrics[card]['Device Name'], device_id=metrics[card]['Device ID'], subsystem_id=metrics[card]['Subsystem ID']).set(metrics[card]['GPU use (%)'])
                 gpuVRAMUsage.labels(device_name=metrics[card]['Device Name'], device_id=metrics[card]['Device ID'], subsystem_id=metrics[card]['Subsystem ID']).set(metrics[card]['GPU Memory Allocated (VRAM%)'])
         logger.info("[X] Refreshed GPU metrics.")
